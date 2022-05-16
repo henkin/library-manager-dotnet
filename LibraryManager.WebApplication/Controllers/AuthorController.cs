@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManager.WebApplication.Controllers;
 
-[Route("authors")]
+[Route("[controller]")]
 [ApiController]
-public class AuthorController : ControllerBase
+public class AuthorsController : Controller
 {
     private readonly IRepository<Author> _authorRepository;
 
-    public AuthorController(IRepository<Author> authorRepository)
+    public AuthorsController(IRepository<Author> authorRepository)
     {
         _authorRepository = authorRepository;
     }
@@ -23,7 +23,7 @@ public class AuthorController : ControllerBase
         return authors;
     }
         
-    // GET: api/Author/5
+    // GET: /authors
     [HttpGet("{id}")]
     public async Task<Author> Get(Guid id)
     {
@@ -31,23 +31,23 @@ public class AuthorController : ControllerBase
         return author;
     }
 
-    // POST: api/Author
+    // POST: /authors
     [HttpPost]
-    public async Task<Guid> Post([FromBody] AuthorModel value)
+    public async Task<Guid> Post([FromForm] AuthorModel value)
     {
         var id = await _authorRepository.Insert(value);
         return id;
     }
 
-    // PUT: api/Author/5
+    // PUT: /authors/5
     [HttpPut("{id}")]
-    public async Task Put([FromRoute] Guid id, [FromBody] AuthorModel value)
+    public async Task Put([FromRoute] Guid id, [FromForm] AuthorModel value)
     {
         var entity = await _authorRepository.Get(id);
         await _authorRepository.Update(entity);
     }
 
-    // DELETE: api/Author/5
+    // DELETE: /authors/5
     [HttpDelete("{id}")]
     public async Task Delete(Guid id)
     {
