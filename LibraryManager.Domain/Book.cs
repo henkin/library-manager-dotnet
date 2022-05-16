@@ -1,6 +1,6 @@
 ﻿namespace LibraryManager.Domain;
 
-public class Book
+public class Book : BaseEntity
 {
     public string Name { get; set; }
     public string ISBN { get; set; }

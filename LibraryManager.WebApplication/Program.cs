@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// builder.Services.AddDbContext<FakeDbContext>();
 builder.Services.AddDbContext<LibraryManagerDbContext>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<DbContext, LibraryManagerDbContext>();
@@ -42,3 +43,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+public partial class Program {}
