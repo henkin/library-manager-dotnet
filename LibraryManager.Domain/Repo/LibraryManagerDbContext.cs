@@ -1,15 +1,16 @@
-﻿using LibraryManager.Domain.Repo;
+﻿using LibraryManager.Domain;
+using LibraryManager.Domain.Repo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LibraryManager.Domain.Persistence.SQLite;
+
 public class LibraryManagerDbContext : DbContext, IRepositoryProvider 
 {  
-    public DbSet<Book> Books { get; set; }
-    public DbSet<Author> Authors { get; set; }
-    public DbSet<Publisher> Publishers { get; set; }
+    public DbSet<Book>? Books { get; set; }
+    public DbSet<Author>? Authors { get; set; }
+    public DbSet<Publisher>? Publishers { get; set; }
 
-    public string DbPath { get; }
+    private string DbPath { get; }
 
     public LibraryManagerDbContext()
     {
@@ -17,12 +18,13 @@ public class LibraryManagerDbContext : DbContext, IRepositoryProvider
         DbPath = Path.Join(path, "blogging.db");
     }
 
+    public LibraryManagerDbContext(DbContextOptions <LibraryManagerDbContext> options) 
+        : base(options) {}
+    
     // The following configures EF to create a Sqlite database file in the
     // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
-    
-    public LibraryManagerDbContext(DbContextOptions <LibraryManagerDbContext> options) : base(options) {}
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

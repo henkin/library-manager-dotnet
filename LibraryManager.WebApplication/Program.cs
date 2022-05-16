@@ -1,3 +1,7 @@
+using LibraryManager.Domain;
+using LibraryManager.Domain.Repo;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,9 +11,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// builder.Services.AddDbContext<ApplicationDbContext>(
-//     options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
-// }
+builder.Services.AddDbContext<LibraryManagerDbContext>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<DbContext, LibraryManagerDbContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
