@@ -3,10 +3,8 @@
 ## Summary
 A simple library inventory manager. It should be structured as a simple database-backed CRUD application.
 > Note: The first phase of this is going to be just the REST API - we are doing API-first.
-> 
-## Deliverables
-Hosted on Github [link]
 
+## Deliverables
 To keep the project as simple as possible, it is implemented using server-side 
 rendering. The database access methodology is left to your preference, but the 
 data itself should be stored using SQLite.
