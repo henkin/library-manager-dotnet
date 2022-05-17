@@ -27,32 +27,4 @@ public class LibraryManagerDbContext : DbContext//, IRepositoryProvider
     // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
-    
-    // protected override void OnModelCreating(ModelBuilder modelBuilder)
-    // {
-    //     base.OnModelCreating(modelBuilder);
-    //     new AuthorMap(modelBuilder.Entity<Author>());
-    //     new BookMap(modelBuilder.Entity<Book>());
-    // }
-
-    // public IRepository<T> GetRepository<T>() where T : BaseEntity
-    // {
-    //     return new Repository<T>(this);
-    // }
 }
-
-// public class BookMap
-// {
-//     public BookMap(EntityTypeBuilder<Book> entity)
-//     {
-//         throw new NotImplementedException();
-//     }
-// }
-//
-// public class AuthorMap
-// {
-//     public AuthorMap(EntityTypeBuilder<Author> entity)
-//     {
-//         
-//     }
-// }

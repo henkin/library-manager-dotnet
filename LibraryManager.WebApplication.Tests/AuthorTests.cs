@@ -19,9 +19,14 @@ namespace LibraryManager.WebApplication.Tests;
 public class AuthorTests
 {
     private static readonly string RequestUri = "/authors";
-    private AuthorModel _testResource;
-    private readonly AuthorModel _authorModel;
-    public HttpClient AppClient { get; }
+    private static readonly AuthorApiModel TestResource = new()
+    {
+        Email = "test@testing.io",
+        FirstName = "First",
+        LastName = "Last"
+    };
+
+    protected HttpClient AppClient { get; }
     
     public AuthorTests()
     {   
@@ -32,12 +37,6 @@ public class AuthorTests
         // create integration test Server and its HttpClient
         AppClient = new WebApplicationFactory<Program>()
             .CreateClient();
-        _authorModel = _testResource = new AuthorModel()
-        {
-            Email = "test@testing.io",
-            FirstName = "First",
-            LastName = "Last"
-        };
     }
 
 
@@ -54,33 +53,48 @@ public class AuthorTests
     [Fact]
     public async Task Create_Duplicate_Returns400_Error()
     {
-        throw new NotImplementedException();
+        // Arrange
+        var postResponse = await PostAsync(TestResource, RequestUri);
+        postResponse.Should().Be200Ok();
+        
+        // Act
+        postResponse = await PostAsync(TestResource, RequestUri);
+        
+        // Assert
+        postResponse.Should().Be400BadRequest().And.HaveErrorMessage("*Duplicate*");
     }
     
     [Fact]
     public async Task Create_Malformed_Returns400_Error()
     {
-        throw new NotImplementedException();
+        // Arrange
+        var malformedResource = new { badProperty = "don't like" };
+        
+        // Act
+        var postResponse = await PostAsync(malformedResource, RequestUri);
+        
+        // Assert
+        postResponse.Should().Be400BadRequest().And.HaveErrorMessage("*field is required*");
     }
 
     [Fact]
     public async Task Create_Unique_Returns200_Id()
     {
         // Arrange
-        var postResponse = await PostAsync(_testResource, RequestUri);
-        postResponse.Should().Be200Ok();
         
         // Act
-        var getResponse = await AppClient.GetAsync(RequestUri);
+        var postResponse = await PostAsync(TestResource, RequestUri);
+        postResponse.Should().Be200Ok();
 
         // Assert
         //var content = await getResponse.Content.ReadAsStringAsync();
+        var getResponse = await AppClient.GetAsync(RequestUri);
         getResponse
             .Should()
             .Be200Ok().And
             .Satisfy<IList<Author>>(authors => authors
                 .Should().ContainSingle().Which // https://fluentassertions.com/collections/
-                .Should().BeEquivalentTo(_testResource, options => 
+                .Should().BeEquivalentTo(TestResource, options => 
                     options
                         .Excluding(o => o.Id)
                         .Excluding(o => o.Books)
@@ -91,32 +105,44 @@ public class AuthorTests
 
     [Fact]
     public async Task Get_Existing_Returns200_Item()
-    {
-        throw new NotImplementedException();
+    {        
+        // Arrange
+        var postResponse = await PostAsync(TestResource, RequestUri);
+        var id = await DeserializeResponse<Guid>(postResponse);
+        
+        // Act
+        var getResponse = await AppClient.GetAsync($"${RequestUri}/${id}");
+        
+        // Assert
+        getResponse.Should().Be200Ok().And.BeAs(
+          TestResource with { Id = id }
+        );
     }
 
     [Fact]
     public async Task Get_Missing_Returns404_Error()
     {
-        throw new NotImplementedException();
     }
 
     [Fact]
     public async Task Update_Existing_Returns202_Item()
     {
-        throw new NotImplementedException();
     }
     
     [Fact]
     public async Task Update_Missing_Returns404_Item()
     {
-        throw new NotImplementedException();
     }
     
     [Fact]
     public async Task Update_Malformed_Returns400_Item()
     {
-        throw new NotImplementedException();
+    }
+    
+    private async Task<T> DeserializeResponse<T>(HttpResponseMessage message)
+    {
+        var responseString = await message.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<T>(responseString); 
     }
     
     private async Task<HttpResponseMessage> PostAsync(object data, string requestUri)

@@ -5,5 +5,5 @@ namespace LibraryManager.Domain;
 public abstract record BaseEntity 
 {
     [Key]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 }
