@@ -16,6 +16,8 @@ data itself should be stored using SQLite.
 The application lets you manage three entity types: **books**, **authors**, **publishers**.
  
 ## Books
+Books can be written by **Authors** and published by **Publishers**
+
 ### Properties:
 - ISBN (unique ID)
 - Title
@@ -23,7 +25,7 @@ The application lets you manage three entity types: **books**, **authors**, **pu
 - [Publisher](#publisher)
 - [Author](#author) 
 
-### Pages
+### Book Routes
 - `/books` - list of books
 - `/books?publisherId={publisherId}`
 - `/books?authorId={authorId}`
@@ -35,6 +37,7 @@ Authors can write books
 - FirstName
 - LastName
 
+### Author Routes
 - `/authors` - list of authors
 - `/author/{id}` - details about a single author
 
@@ -44,18 +47,10 @@ Properties:
 - PublisherId
 - Name
 
+### Publisher Routes
 - `/publishers`
 - `/publishers/{id}`
 
-These objects should include properties that are typically relevant.
-There should be 
-- a form for entering details about each of the objects
-- a page to view the details of each object
-- and a list for each object collection.
-
-There should be two additional lists: 
-books written by an author
-books published by a publisher. 
-
+> Incomplete: 
 The book entry form should validate the ISBN using your own validator (assume a library isn't available). 
 Bonus: support a single book image upload per book and display it on the details page.
