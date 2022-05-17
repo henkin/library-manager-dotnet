@@ -1,4 +1,3 @@
-using System.Data.Common;
 using LibraryManager.Domain;
 using LibraryManager.WebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -26,9 +25,9 @@ public class AuthorsController : Controller
         
     // GET: /authors
     [HttpGet("{id}")]
-    public async Task<Author> Get(Guid id)
+    public async Task<Author> Get(string id)
     {
-        var author = await _authorRepository.Get(id);
+        var author = await _authorRepository.Get(new Guid(id));
         return author;
     }
     

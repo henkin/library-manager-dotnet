@@ -1,7 +1,5 @@
 ﻿using LibraryManager.Domain;
-using LibraryManager.Domain.Repo;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
 public class LibraryManagerDbContext : DbContext//, IRepositoryProvider 

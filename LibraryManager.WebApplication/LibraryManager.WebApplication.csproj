@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LibraryManager.Domain\LibraryManager.Domain.csproj" />
+      <ProjectReference Include="..\LibraryManager.Persistence.EFCore\LibraryManager.Persistence.EFCore.csproj" />
     </ItemGroup>
 
     <ItemGroup>
