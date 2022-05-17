@@ -1,6 +1,6 @@
 namespace LibraryManager.Domain;
 
-public class Publisher : BaseEntity
+public record Publisher : BaseEntity
 {
     public string Name;
 }

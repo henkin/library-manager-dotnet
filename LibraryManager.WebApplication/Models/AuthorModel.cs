@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManager.WebApplication.Models;
 
-public class AuthorModel : Author
+public record AuthorModel : Author
 { 
     // public Guid Id { get; set; }
     // public string FirstName { get; set; }

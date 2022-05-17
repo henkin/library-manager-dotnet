@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManager.WebApplication.Controllers;
 
-[Route("[controller]")]
+[Route("/[controller]")]
 [ApiController]
 public class AuthorsController : Controller
 {
@@ -31,13 +31,15 @@ public class AuthorsController : Controller
         return author;
     }
 
+    
     // POST: /authors
     [HttpPost]
-    public async Task<Guid> Post([FromForm] AuthorModel value)
+    public async Task<Guid> Post(AuthorModel value)
     {
         var id = await _authorRepository.Insert(value);
         return id;
     }
+    
 
     // PUT: /authors/5
     [HttpPut("{id}")]

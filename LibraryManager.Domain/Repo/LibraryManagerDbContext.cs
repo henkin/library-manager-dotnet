@@ -15,6 +15,8 @@ public class LibraryManagerDbContext : DbContext//, IRepositoryProvider
         "blogging.db"
         );
 
+    public LibraryManagerDbContext() : this(new DbContextOptions<LibraryManagerDbContext>()) { }
+
     public LibraryManagerDbContext(DbContextOptions<LibraryManagerDbContext> options)
         : base(options)
     {

@@ -1,7 +1,7 @@
 #pragma warning disable CS8618
 namespace LibraryManager.Domain;
 
-public class Author : BaseEntity
+public record Author : BaseEntity
 { 
     public string FirstName { get; set; }
     public string LastName { get; set; }
